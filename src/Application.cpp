@@ -43,7 +43,6 @@ void Application::stop() {
 }
 
 bool Application::test() {
-    printf("Testing Application...\n");
     bool result = true;
     
     Application testApp;

@@ -51,8 +51,6 @@ void testThread(Timer* timer) {
 }
 
 bool Timer::test() {
-    printf("Testing Timer...\n");
-    
     bool result = true;
     
     Semaphore* timerSem = new Semaphore();
@@ -86,11 +84,17 @@ bool Timer::test() {
         t4c++;
     };
     
+    auto progress = [] {
+        printf(".");
+        fflush(stdout);
+    };
+    
     TimerInterval interval1 = timer->setInterval(10050, timeStopperFunc, false);
     TimerInterval interval2 = timer->setInterval(500, timeFunc2, true);
     TimerInterval interval3 = timer->setInterval(1000, timeFunc1, true);
     TimerInterval interval4 = timer->setInterval(2500, timeFunc3, false);
     TimerInterval interval5 = timer->setInterval(12000, timeFunc4, true);
+    TimerInterval interval6 = timer->setInterval(2000, progress, true);
     
     timerSem->wait();
     delete timerSem;
@@ -102,6 +106,7 @@ bool Timer::test() {
     interval3.cancel();
     interval4.cancel();
     interval5.cancel();
+    interval6.cancel();
     
     int t1cExpected = 10;
     int t2cExpected = 20;

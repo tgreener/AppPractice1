@@ -15,16 +15,14 @@ using namespace std;
 
 void printTestResult(bool result) {
     if(result) {
-        printf("Test Successful!\n");
+        printf("SUCCESS!\n");
     }
     else {
-        printf("Test Failed!\n");
+        printf("FAILED!\n");
     }
 }
 
 bool integrationTest() {
-    printf("Integration Test...\n");
-    
     Application app;
     
     bool result = false;
@@ -44,9 +42,19 @@ bool integrationTest() {
  * 
  */
 int main(int argc, char** argv) {
+    printf("Testing Application...\t\t");
     printTestResult(Application::test());
-    ServiceLocator::test();
-    printTestResult(Timer::test());
+    
+    printf("Testing ServiceLocator...\t");
+    printTestResult(ServiceLocator::test());
+    
+    printf("Testing Timer");
+    fflush(stdout);
+    bool timerResult = Timer::test();
+    printf("\t\t");
+    printTestResult(timerResult);
+    
+    printf("Integration Test...\t\t");
     printTestResult(integrationTest());
     
     return 0;

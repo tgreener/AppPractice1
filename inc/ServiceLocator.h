@@ -9,6 +9,7 @@
 #define	SERVICELOCATOR_H
 
 #include "MessageService.h"
+#include "Timer.h"
 
 class ServiceLocator {
 private:
@@ -29,6 +30,8 @@ public:
      */
     MessageService* locateMessageService();
     
+    Timer* locateTimerService();
+    
     /*
      * Tell the locator which message service object to use. Any previous 
      * message object is deleted;
@@ -36,7 +39,7 @@ public:
     void provideMessageService(MessageService* m);
     
     static ServiceLocator* getDefaultLocator();
-    static void test();
+    static bool test();
 };
 
 #endif	/* SERVICELOCATOR_H */

@@ -34,6 +34,10 @@ void ServiceLocator::provideMessageService(MessageService* m) {
     messages = m;
 }
 
+Timer* ServiceLocator::locateTimerService() {
+    return Timer::getTimer();
+}
+
 ServiceLocator* ServiceLocator::getDefaultLocator() {
     if(defaultLocator == NULL) {
         defaultLocator = new ServiceLocator();
@@ -45,13 +49,18 @@ ServiceLocator* ServiceLocator::getDefaultLocator() {
 void testThread(int n, ServiceLocator* aDifferentThreadsLocator) {
     ServiceLocator* loc = ServiceLocator::getDefaultLocator();  
     ServiceLocator* loc2 = ServiceLocator::getDefaultLocator();
+    Timer* timer1 = loc->locateTimerService();
+    Timer* timer2 = loc2->locateTimerService();
     
     assert(loc == loc2);
     assert(loc != aDifferentThreadsLocator);
+    
+    assert(loc == loc2);
+    assert(loc != NULL);
 }
 
-void ServiceLocator::test() {
-    printf("Testing ServiceLocator...\n");
+bool ServiceLocator::test() {
+    bool result = true;
     
     int n = 0;
     
@@ -63,7 +72,7 @@ void ServiceLocator::test() {
     thread1.join();
     thread2.join();
     
-    printf("Test complete!\n");
+    return result;
 }
 
 
