@@ -26,7 +26,6 @@ public:
     Application();
     
     void run(std::function<void (void)> appStartFunction);
-    
     void stop();
     
     static bool test();
