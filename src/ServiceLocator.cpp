@@ -57,6 +57,8 @@ void testThread(int n, ServiceLocator* aDifferentThreadsLocator) {
     
     assert(loc == loc2);
     assert(loc != NULL);
+    
+    assert(timer1 == timer2);
 }
 
 bool ServiceLocator::test() {
