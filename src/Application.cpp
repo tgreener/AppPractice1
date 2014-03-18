@@ -25,26 +25,21 @@ void Application::runLoop() {
     }
 }
 
-void Application::run() {
-    appThread = thread( [&] {
-        runLoop();
-    });
-}
-
 void Application::run(function<void (void)> appStartFunction) {
     setRunning(true);
     
-    appThread = thread( [&]{
+    std::thread appThread( [&]{
         appStartFunction();
         runLoop();
     });
+    
+    appThread.join();
 }
 
 void Application::stop() {
     setRunning(false);
     
     appSem.signal();
-    appThread.join();
 }
 
 bool Application::test() {
@@ -52,15 +47,13 @@ bool Application::test() {
     bool result = true;
     
     Application testApp;
-    testApp.run();
-    testApp.stop();
     
     int a1c = 0;
     
     testApp.run([&] {
         a1c++;
+        testApp.stop();
     });
-    testApp.stop();
     
     if(a1c != 1) {
         printf("Var a1c, expected: %d actual: %d\n", 1, a1c);

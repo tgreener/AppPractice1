@@ -14,8 +14,6 @@
 
 class Application {
 private:
-    std::thread appThread;
-    
     Semaphore appSem;
     Semaphore dataSem;
     
@@ -27,7 +25,6 @@ private:
 public:
     Application();
     
-    void run();
     void run(std::function<void (void)> appStartFunction);
     
     void stop();

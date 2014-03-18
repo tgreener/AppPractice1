@@ -2,11 +2,10 @@
 #include "Timer.h"
 #include <thread>
 #include <cassert>
-#include <dispatch/dispatch.h>
 
 Timer Timer::theTimer;
 
-void Timer::setInterval(unsigned int milliseconds, function<void (void)> callback, bool repeats) {
+TimerInterval Timer::setInterval(unsigned int milliseconds, function<void (void)> callback, bool repeats) {
     dispatch_source_t timer = 
             dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 
             0, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
@@ -30,6 +29,11 @@ void Timer::setInterval(unsigned int milliseconds, function<void (void)> callbac
         dispatch_source_set_event_handler(timer, ^{callback();});
         dispatch_resume(timer);
     }
+    else {
+        timer = NULL;
+    }
+    
+    return timer;
 }
 
 Timer* Timer::getTimer() {
@@ -82,16 +86,22 @@ bool Timer::test() {
         t4c++;
     };
     
-    timer->setInterval(10050, timeStopperFunc, false);
-    timer->setInterval(500, timeFunc2, true);
-    timer->setInterval(1000, timeFunc1, true);
-    timer->setInterval(2500, timeFunc3, false);
-    timer->setInterval(12000, timeFunc4, true);
+    TimerInterval interval1 = timer->setInterval(10050, timeStopperFunc, false);
+    TimerInterval interval2 = timer->setInterval(500, timeFunc2, true);
+    TimerInterval interval3 = timer->setInterval(1000, timeFunc1, true);
+    TimerInterval interval4 = timer->setInterval(2500, timeFunc3, false);
+    TimerInterval interval5 = timer->setInterval(12000, timeFunc4, true);
     
     timerSem->wait();
     delete timerSem;
     
     thread1.join();
+
+    interval1.cancel();
+    interval2.cancel();
+    interval3.cancel();
+    interval4.cancel();
+    interval5.cancel();
     
     int t1cExpected = 10;
     int t2cExpected = 20;

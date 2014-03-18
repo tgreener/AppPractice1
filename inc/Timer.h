@@ -18,6 +18,7 @@
 #include <time.h>
 #include <functional>
 #include "Semaphore.h"
+#include "TimerInterval.h"
 
 class Timer {
 private:
@@ -28,7 +29,7 @@ private:
     
     Timer();
 public:
-    void setInterval(unsigned int milliseconds, function<void (void)> callback, bool repeats);
+    TimerInterval setInterval(unsigned int milliseconds, function<void (void)> callback, bool repeats);
     
     static Timer* getTimer();
     static bool test();

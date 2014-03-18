@@ -22,6 +22,24 @@ void printTestResult(bool result) {
     }
 }
 
+bool integrationTest() {
+    printf("Integration Test...\n");
+    
+    Application app;
+    
+    bool result = false;
+    
+    auto appInit = [&] {
+        Timer* timer = Timer::getTimer();
+        timer->setInterval(250, [&]{ result = true; }, false);
+        timer->setInterval(510, [&]{ app.stop(); }, false);
+    };
+    
+    app.run(appInit);
+    
+    return result;
+}
+
 /*
  * 
  */
@@ -29,6 +47,7 @@ int main(int argc, char** argv) {
     printTestResult(Application::test());
     ServiceLocator::test();
     printTestResult(Timer::test());
+    printTestResult(integrationTest());
     
     return 0;
 }

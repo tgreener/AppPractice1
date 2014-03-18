@@ -41,7 +41,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/MessageService.o \
 	${OBJECTDIR}/src/Semaphore.o \
 	${OBJECTDIR}/src/ServiceLocator.o \
-	${OBJECTDIR}/src/Timer.o
+	${OBJECTDIR}/src/Timer.o \
+	${OBJECTDIR}/src/TimerInterval.o
 
 
 # C Compiler Flags
@@ -102,6 +103,11 @@ ${OBJECTDIR}/src/Timer.o: src/Timer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Timer.o src/Timer.cpp
+
+${OBJECTDIR}/src/TimerInterval.o: src/TimerInterval.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/TimerInterval.o src/TimerInterval.cpp
 
 # Subprojects
 .build-subprojects:

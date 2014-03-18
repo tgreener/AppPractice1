@@ -11,6 +11,7 @@
       <itemPath>inc/Semaphore.h</itemPath>
       <itemPath>inc/ServiceLocator.h</itemPath>
       <itemPath>inc/Timer.h</itemPath>
+      <itemPath>inc/TimerInterval.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -25,6 +26,7 @@
       <itemPath>src/Semaphore.cpp</itemPath>
       <itemPath>src/ServiceLocator.cpp</itemPath>
       <itemPath>src/Timer.cpp</itemPath>
+      <itemPath>src/TimerInterval.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -72,6 +74,8 @@
       </item>
       <item path="inc/Timer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/TimerInterval.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Application.cpp" ex="false" tool="1" flavor2="0">
@@ -85,6 +89,8 @@
       <item path="src/ServiceLocator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/TimerInterval.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -121,6 +127,8 @@
       </item>
       <item path="inc/Timer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/TimerInterval.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Application.cpp" ex="false" tool="1" flavor2="0">
@@ -134,6 +142,8 @@
       <item path="src/ServiceLocator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/TimerInterval.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
   </confs>
