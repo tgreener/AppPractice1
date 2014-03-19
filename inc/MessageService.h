@@ -16,8 +16,8 @@
 
 typedef std::unordered_map<std::string, std::string> StringMap;
 typedef std::function<void (StringMap)> Callback;
-typedef std::unordered_map<std::string, std::vector<Callback>> SubscriptionMap;
 typedef std::vector<Callback> CallbackList;
+typedef std::unordered_map<std::string, CallbackList> SubscriptionMap;
 
 class MessageService {
 private:
