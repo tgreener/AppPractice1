@@ -30,6 +30,9 @@ public:
      */
     MessageService* locateMessageService();
     
+    /*
+     * Get the timer service object.
+     */
     Timer* locateTimerService();
     
     /*
