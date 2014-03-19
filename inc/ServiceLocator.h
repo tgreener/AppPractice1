@@ -13,7 +13,7 @@
 
 class ServiceLocator {
 private:
-    MessageService* messages;
+    static __thread MessageService* messages;
     static __thread ServiceLocator* defaultLocator;
     
     /*
@@ -36,12 +36,10 @@ public:
     Timer* locateTimerService();
     
     /*
-     * Tell the locator which message service object to use. Any previous 
-     * message object is deleted;
-     */
-    void provideMessageService(MessageService* m);
-    
+     * Get the service locator for this thread. 
+     */    
     static ServiceLocator* getDefaultLocator();
+    
     static bool test();
 };
 

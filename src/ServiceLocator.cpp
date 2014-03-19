@@ -5,6 +5,7 @@
 #include <cassert>
 
 __thread ServiceLocator* ServiceLocator::defaultLocator;
+__thread MessageService* ServiceLocator::messages;
 
 ServiceLocator::ServiceLocator() {}
 
@@ -26,14 +27,6 @@ MessageService* ServiceLocator::locateMessageService() {
     return messages;
 }
 
-void ServiceLocator::provideMessageService(MessageService* m) {
-    if(messages != NULL) {
-        delete messages;
-    }
-    
-    messages = m;
-}
-
 Timer* ServiceLocator::locateTimerService() {
     return Timer::getTimer();
 }
@@ -52,13 +45,19 @@ void testThread(int n, ServiceLocator* aDifferentThreadsLocator) {
     Timer* timer1 = loc->locateTimerService();
     Timer* timer2 = loc2->locateTimerService();
     
-    assert(loc == loc2);
-    assert(loc != aDifferentThreadsLocator);
+    MessageService* mes1 = loc->locateMessageService();
+    MessageService* mes2 = loc2->locateMessageService();
+    
+    MessageService* mes3 = aDifferentThreadsLocator->locateMessageService();
     
     assert(loc == loc2);
+    assert(loc != aDifferentThreadsLocator);
     assert(loc != NULL);
     
     assert(timer1 == timer2);
+    assert(mes1 != NULL);
+    assert(mes1 == mes2);
+    //assert(mes1 != mes3);
 }
 
 bool ServiceLocator::test() {

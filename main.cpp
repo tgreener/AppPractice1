@@ -24,13 +24,27 @@ void printTestResult(bool result) {
 
 bool integrationTest() {
     Application app;
-    
     bool result = false;
     
     auto appInit = [&] {
-        Timer* timer = Timer::getTimer();
-        timer->setInterval(250, [&]{ result = true; }, false);
-        timer->setInterval(510, [&]{ app.stop(); }, false);
+        new thread([&] {
+            Semaphore testSem;            
+            ServiceLocator* loc = ServiceLocator::getDefaultLocator();
+
+            MessageService* ms = loc->locateMessageService();
+            ms->subscribe("timerEvent", [&](StringMap p) { 
+                result = true; 
+                testSem.signal();
+            });
+            
+            Timer* timer = loc->locateTimerService();
+            TimerInterval t1 = timer->setInterval(500, [&]{ ms->publish("timerEvent", StringMap()); }, false);
+
+            testSem.wait();
+
+            t1.cancel();
+            app.stop();
+        });
     };
     
     app.run(appInit);

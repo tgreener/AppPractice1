@@ -1,15 +1,16 @@
 
 #include "MessageService.h"
+#include "Semaphore.h"
 
 using namespace std;
 
 MessageService::MessageService() {
+    comsSem.signal();
 }
 
-MessageService::~MessageService() {
-}
-    
-void MessageService::subscribe(std::string message, Callback callback) {
+void MessageService::subscribe(const std::string& message, Callback callback) {
+    comsSem.wait();
+
     SubscriptionMap::const_iterator got = subscriptions.find(message);
     
     if(got == subscriptions.end()) {
@@ -22,9 +23,13 @@ void MessageService::subscribe(std::string message, Callback callback) {
         CallbackList messageList = got->second;
         messageList.push_back(callback);
     }
+    
+    comsSem.signal();
 }
 
 void MessageService::publish(std::string message, StringMap params) {
+    comsSem.wait();
+    
     SubscriptionMap::const_iterator got = subscriptions.find(message);
     
     if(got != subscriptions.end()) {
@@ -34,6 +39,8 @@ void MessageService::publish(std::string message, StringMap params) {
             messageList[i](params);
         }
     }
+    
+    comsSem.signal();
 }
 
 bool MessageService::test() {
