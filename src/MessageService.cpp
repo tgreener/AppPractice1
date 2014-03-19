@@ -47,16 +47,27 @@ bool MessageService::test() {
     bool result = true;
     
     int messageTestA = 0;
+    std::string testBString;
     
-    messages.subscribe("testA", [&](StringMap){messageTestA++;});
+    messages.subscribe("testA", [&](StringMap p){messageTestA++;});
+    messages.subscribe("testB", [&](StringMap p){testBString = p.find("a")->second;});
     
     StringMap emptyParams;
+    StringMap testBParams;
+    
+    testBParams.insert({"a", "paramA"});
     
     messages.publish("testA", emptyParams);
-    messages.publish("testB", emptyParams);
+    messages.publish("testB", testBParams);
+    messages.publish("testC", emptyParams);
     
     if(messageTestA != 1) {
         printf("Var messageTestA, expected: %d actual: %d\n", 1, messageTestA);
+        result = false;
+    }
+    
+    if(testBString.compare("paramA") != 0) {
+        printf("Var testBString, expected: %s actual: %s\n", "paramA", testBString.c_str());
         result = false;
     }
     
