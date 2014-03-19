@@ -5,7 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>inc/Application.h</itemPath>
-      <itemPath>EventQueue.h</itemPath>
+      <itemPath>inc/Event.h</itemPath>
+      <itemPath>inc/EventQueue.h</itemPath>
       <itemPath>inc/MemoryPool.h</itemPath>
       <itemPath>inc/MessageListener.h</itemPath>
       <itemPath>inc/MessageService.h</itemPath>
@@ -61,9 +62,11 @@
           </incDir>
         </ccTool>
       </compileType>
-      <item path="EventQueue.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="inc/Application.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/Event.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/EventQueue.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/MemoryPool.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -116,9 +119,11 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="EventQueue.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="inc/Application.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/Event.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/EventQueue.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/MemoryPool.h" ex="false" tool="3" flavor2="0">
       </item>

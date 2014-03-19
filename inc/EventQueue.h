@@ -8,7 +8,12 @@
 #ifndef EVENTQUEUE_H
 #define	EVENTQUEUE_H
 
-
+class EventQueue {
+private:
+    
+public:
+    
+};
 
 #endif	/* EVENTQUEUE_H */
 
