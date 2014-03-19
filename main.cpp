@@ -37,12 +37,12 @@ bool integrationTest() {
         MessageService* ms = loc->locateMessageService();
         
         mainThreadMessages->subscribe("timerEvent", [&](StringMap p) {
-            result = true;
             ms->publish("superEvent", StringMap());
         });
         
         ms->subscribe("superEvent", [&](StringMap p) { 
             testSem.signal();
+            result = true;
         });
         
         syncSem.signal();
@@ -56,7 +56,7 @@ bool integrationTest() {
         syncSem.wait();
         
         Timer* timer = ServiceLocator::getDefaultLocator()->locateTimerService();
-        TimerInterval t1 = timer->setInterval(500, [&]{ 
+        timer->setInterval(500, [&]{ 
             mainThreadMessages->publish("timerEvent", StringMap());
         }, false);
     });
