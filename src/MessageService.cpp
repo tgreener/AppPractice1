@@ -12,8 +12,6 @@ MessageService::~MessageService() {
 void MessageService::subscribe(std::string message, Callback callback) {
     SubscriptionMap::const_iterator got = subscriptions.find(message);
     
-    fflush(stdout);
-    
     if(got == subscriptions.end()) {
         CallbackList newList;
         newList.push_back(callback);
