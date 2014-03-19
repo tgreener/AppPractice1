@@ -25,15 +25,12 @@ void MessageService::subscribe(std::string message, Callback callback) {
 }
 
 void MessageService::publish(std::string message, StringMap params) {
-    fflush(stdout);
     SubscriptionMap::const_iterator got = subscriptions.find(message);
     
     if(got != subscriptions.end()) {
-        fflush(stdout);
         CallbackList messageList = got->second;
         
         for(CallbackList::size_type i = 0; i < messageList.size(); i++) {
-            fflush(stdout);
             messageList[i](params);
         }
     }
