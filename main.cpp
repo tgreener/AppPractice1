@@ -43,10 +43,16 @@ bool integrationTest() {
  */
 int main(int argc, char** argv) {
     printf("Testing Application...\t\t");
+    fflush(stdout);
     printTestResult(Application::test());
     
     printf("Testing ServiceLocator...\t");
+    fflush(stdout);
     printTestResult(ServiceLocator::test());
+    
+    printf("Testing MessageService...\t");
+    fflush(stdout);
+    printTestResult(MessageService::test());
     
     printf("Testing Timer");
     fflush(stdout);
@@ -55,6 +61,7 @@ int main(int argc, char** argv) {
     printTestResult(timerResult);
     
     printf("Integration Test...\t\t");
+    fflush(stdout);
     printTestResult(integrationTest());
     
     return 0;
