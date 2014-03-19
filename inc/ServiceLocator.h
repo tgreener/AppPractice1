@@ -13,7 +13,7 @@
 
 class ServiceLocator {
 private:
-    static __thread MessageService* messages;
+    MessageService* messages;
     static __thread ServiceLocator* defaultLocator;
     
     /*

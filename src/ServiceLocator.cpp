@@ -5,9 +5,11 @@
 #include <cassert>
 
 __thread ServiceLocator* ServiceLocator::defaultLocator;
-__thread MessageService* ServiceLocator::messages;
 
-ServiceLocator::ServiceLocator() {}
+ServiceLocator::ServiceLocator() {
+    messages = NULL;
+    defaultLocator = NULL;
+}
 
 ServiceLocator::~ServiceLocator() {
     if(messages != NULL) {
@@ -47,17 +49,23 @@ void testThread(int n, ServiceLocator* aDifferentThreadsLocator) {
     
     MessageService* mes1 = loc->locateMessageService();
     MessageService* mes2 = loc2->locateMessageService();
+
+    assert(mes1 == mes2);
+    mes1->publish("someMessage", StringMap());
     
     MessageService* mes3 = aDifferentThreadsLocator->locateMessageService();
+    mes3->publish("aMessage", StringMap());
     
     assert(loc == loc2);
     assert(loc != aDifferentThreadsLocator);
     assert(loc != NULL);
+    assert(aDifferentThreadsLocator != NULL);
     
     assert(timer1 == timer2);
+    
     assert(mes1 != NULL);
-    assert(mes1 == mes2);
-    //assert(mes1 != mes3);
+    assert(mes3 != NULL);
+    assert(mes1 != mes3);
 }
 
 bool ServiceLocator::test() {

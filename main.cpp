@@ -26,28 +26,41 @@ bool integrationTest() {
     Application app;
     bool result = false;
     
-    auto appInit = [&] {
-        new thread([&] {
-            Semaphore testSem;            
-            ServiceLocator* loc = ServiceLocator::getDefaultLocator();
-
-            MessageService* ms = loc->locateMessageService();
-            ms->subscribe("timerEvent", [&](StringMap p) { 
-                result = true; 
-                testSem.signal();
-            });
-            
-            Timer* timer = loc->locateTimerService();
-            TimerInterval t1 = timer->setInterval(500, [&]{ ms->publish("timerEvent", StringMap()); }, false);
-
-            testSem.wait();
-
-            t1.cancel();
-            app.stop();
-        });
-    };
+    std::thread testThread;
+    MessageService* mainThreadMessages = ServiceLocator::getDefaultLocator()->locateMessageService();
+    Semaphore syncSem;
     
-    app.run(appInit);
+    auto threadFunction = [&] {
+        Semaphore testSem;            
+        ServiceLocator* loc = ServiceLocator::getDefaultLocator();
+
+        MessageService* ms = loc->locateMessageService();
+        
+        mainThreadMessages->subscribe("timerEvent", [&](StringMap p) {
+            result = true;
+            ms->publish("superEvent", StringMap());
+        });
+        
+        ms->subscribe("superEvent", [&](StringMap p) { 
+            testSem.signal();
+        });
+        
+        syncSem.signal();
+        testSem.wait();
+
+        app.stop();
+    };
+   
+    app.run([&] {
+        testThread = thread(threadFunction);
+        syncSem.wait();
+        
+        Timer* timer = ServiceLocator::getDefaultLocator()->locateTimerService();
+        TimerInterval t1 = timer->setInterval(500, [&]{ 
+            mainThreadMessages->publish("timerEvent", StringMap());
+        }, false);
+    });
+    testThread.join();
     
     return result;
 }
@@ -56,6 +69,10 @@ bool integrationTest() {
  * 
  */
 int main(int argc, char** argv) {
+    printf("Integration Test...\t\t");
+    fflush(stdout);
+    printTestResult(integrationTest());
+    
     printf("Testing Application...\t\t");
     fflush(stdout);
     printTestResult(Application::test());
@@ -73,10 +90,6 @@ int main(int argc, char** argv) {
     bool timerResult = Timer::test();
     printf("\t\t");
     printTestResult(timerResult);
-    
-    printf("Integration Test...\t\t");
-    fflush(stdout);
-    printTestResult(integrationTest());
     
     return 0;
 }
