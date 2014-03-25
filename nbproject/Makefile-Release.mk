@@ -37,11 +37,14 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/src/Application.o \
+	${OBJECTDIR}/src/Event.o \
+	${OBJECTDIR}/src/EventQueue.o \
 	${OBJECTDIR}/src/MemoryPool.o \
 	${OBJECTDIR}/src/MessageService.o \
 	${OBJECTDIR}/src/Semaphore.o \
 	${OBJECTDIR}/src/ServiceLocator.o \
 	${OBJECTDIR}/src/Timer.o \
+	${OBJECTDIR}/src/TimerEvent.o \
 	${OBJECTDIR}/src/TimerInterval.o
 
 
@@ -79,6 +82,16 @@ ${OBJECTDIR}/src/Application.o: src/Application.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Application.o src/Application.cpp
 
+${OBJECTDIR}/src/Event.o: src/Event.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Event.o src/Event.cpp
+
+${OBJECTDIR}/src/EventQueue.o: src/EventQueue.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/EventQueue.o src/EventQueue.cpp
+
 ${OBJECTDIR}/src/MemoryPool.o: src/MemoryPool.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
@@ -103,6 +116,11 @@ ${OBJECTDIR}/src/Timer.o: src/Timer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Timer.o src/Timer.cpp
+
+${OBJECTDIR}/src/TimerEvent.o: src/TimerEvent.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/TimerEvent.o src/TimerEvent.cpp
 
 ${OBJECTDIR}/src/TimerInterval.o: src/TimerInterval.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src

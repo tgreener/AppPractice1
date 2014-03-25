@@ -9,9 +9,9 @@
 #define	EVENTQUEUE_H
 
 #include "Event.h"
-#include <vector>
+#include <queue>
 
-typedef std::vector<Event> EventList;
+typedef std::queue<Event> EventList;
 
 class EventQueue {
 private:

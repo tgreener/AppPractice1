@@ -13,6 +13,7 @@
       <itemPath>inc/Semaphore.h</itemPath>
       <itemPath>inc/ServiceLocator.h</itemPath>
       <itemPath>inc/Timer.h</itemPath>
+      <itemPath>inc/TimerEvent.h</itemPath>
       <itemPath>inc/TimerInterval.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -23,11 +24,14 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>src/Application.cpp</itemPath>
+      <itemPath>src/Event.cpp</itemPath>
+      <itemPath>src/EventQueue.cpp</itemPath>
       <itemPath>src/MemoryPool.cpp</itemPath>
       <itemPath>src/MessageService.cpp</itemPath>
       <itemPath>src/Semaphore.cpp</itemPath>
       <itemPath>src/ServiceLocator.cpp</itemPath>
       <itemPath>src/Timer.cpp</itemPath>
+      <itemPath>src/TimerEvent.cpp</itemPath>
       <itemPath>src/TimerInterval.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -80,11 +84,17 @@
       </item>
       <item path="inc/Timer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/TimerEvent.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/TimerInterval.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Application.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Event.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/EventQueue.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/MemoryPool.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -95,6 +105,8 @@
       <item path="src/ServiceLocator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/TimerEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/TimerInterval.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -137,11 +149,17 @@
       </item>
       <item path="inc/Timer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/TimerEvent.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/TimerInterval.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Application.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Event.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/EventQueue.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/MemoryPool.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -152,6 +170,8 @@
       <item path="src/ServiceLocator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/TimerEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/TimerInterval.cpp" ex="false" tool="1" flavor2="0">
       </item>
