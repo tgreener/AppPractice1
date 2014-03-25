@@ -9,16 +9,25 @@ __thread ServiceLocator* ServiceLocator::defaultLocator;
 ServiceLocator::ServiceLocator() {
     messages = NULL;
     defaultLocator = NULL;
+    eventQueue = NULL;
 }
 
 ServiceLocator::~ServiceLocator() {
     if(messages != NULL) {
         delete messages;
     }
+    
+    if(eventQueue != NULL) {
+        delete eventQueue;
+    }
 }
 
 void ServiceLocator::createMessageService() {
     messages = new MessageService();
+}
+
+void ServiceLocator::createEventQueue() {
+    eventQueue = new EventQueue();
 }
 
 MessageService* ServiceLocator::locateMessageService() {
@@ -27,6 +36,14 @@ MessageService* ServiceLocator::locateMessageService() {
     }
     
     return messages;
+}
+
+EventQueue* ServiceLocator::locateEventService() {
+    if(eventQueue == NULL) {
+        ServiceLocator::createEventQueue();
+    }
+    
+    return eventQueue;
 }
 
 Timer* ServiceLocator::locateTimerService() {

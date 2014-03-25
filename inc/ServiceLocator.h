@@ -9,10 +9,12 @@
 #define	SERVICELOCATOR_H
 
 #include "MessageService.h"
+#include "EventQueue.h"
 #include "Timer.h"
 
 class ServiceLocator {
 private:
+    EventQueue* eventQueue;
     MessageService* messages;
     static __thread ServiceLocator* defaultLocator;
     
@@ -20,15 +22,22 @@ private:
      * Use to create a message service object if the message service is null;
      */    
     void createMessageService();
+    void createEventQueue();
     ServiceLocator();
     ~ServiceLocator();
     
 public:
     /*
-     * This method returns the global message service object. If no message
+     * This method returns a thread local message service object. If no message
      * service object has been specified, one is created.
      */
     MessageService* locateMessageService();
+    
+    /*
+     * This method returns a thread local event queue service object. If
+     * no event queue object has been specified, one is created.
+     */
+    EventQueue* locateEventService();
     
     /*
      * Get the timer service object.

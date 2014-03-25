@@ -9,16 +9,35 @@
 #define	EVENTQUEUE_H
 
 #include "Event.h"
+#include "TimerEvent.h"
+#include "Semaphore.h"
 #include <queue>
+#include <functional>
+#include <vector>
 
-typedef std::queue<Event> EventList;
+typedef std::queue<TimerEvent> TimerEventQueue;
+typedef std::function<void (TimerEvent)> TimerEventHandler;
+typedef std::vector<std::function<void (TimerEvent)> > TimerEventHandlerList;
 
 class EventQueue {
 private:
-    EventList events;
+    TimerEventQueue timerEvents;
+    Semaphore eventSem;
+    Semaphore comsSem;
+    
+    bool runningEventLoop;
+    
+    TimerEventHandlerList timerEventHandlers;
+    
+    void runTimerEventHandlers(TimerEvent& te);
 public:
+    EventQueue();
+    
     void pushTimerEvent(unsigned long timeElapsed);
-    Event pullEvent();
+    void serviceEventLoop();
+    void addTimerEventHandler(TimerEventHandler teh);
+    
+    void stopEventLoop();
 };
 
 #endif	/* EVENTQUEUE_H */
