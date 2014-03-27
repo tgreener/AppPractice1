@@ -4,7 +4,7 @@ The purpose is to implement features that any game would need and some additiona
 
 Necessary Things:
 
-1) Application Run Loop - I accomplish this by registering timed notifications with the OS. The run loop waits on these events, and so the program basically a giant event pump.
+1) Application Run Loop - I accomplish this by registering timed notifications with the OS. The run loop waits on these events, and so the program is basically a giant event pump.
 
 2) Communication Services - I'm implementing a messaging and event handling service in order to facilitate communications between game systems.
 
