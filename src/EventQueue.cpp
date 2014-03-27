@@ -4,6 +4,7 @@
 
 EventQueue::EventQueue() : runningEventLoop(false){
     comsSem.signal();
+    handlerSem.signal();
 }
 
 void EventQueue::pushTimerEvent(unsigned long timeElapsed) {
@@ -34,21 +35,36 @@ void EventQueue::serviceEventLoop() {
 }
 
 void EventQueue::addTimerEventHandler(TimerEventHandler teh) {
-    comsSem.wait();
+    handlerSem.wait();
     timerEventHandlers.push_back(teh);
-    comsSem.signal();
+    handlerSem.signal();
 }
 
 void EventQueue::runTimerEventHandlers(TimerEvent& te) {
-    comsSem.wait();
+    handlerSem.wait();
     for(TimerEventHandlerList::size_type i = 0; i < timerEventHandlers.size(); i++) {
         timerEventHandlers[i](te);
     }
-    comsSem.signal();
+    handlerSem.signal();
 }
     
 void EventQueue::stopEventLoop() {
     comsSem.wait();
     runningEventLoop = false;
     comsSem.signal();
+}
+
+bool EventQueue::test() {
+    EventQueue eq;
+    bool result = false;
+    
+    eq.addTimerEventHandler([&](TimerEvent te) {
+        result = te.getElapsedTime() == 10;
+        eq.stopEventLoop();
+    });
+    
+    eq.pushTimerEvent(10);
+    eq.serviceEventLoop();
+    
+    return result;
 }

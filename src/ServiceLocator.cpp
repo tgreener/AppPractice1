@@ -73,6 +73,9 @@ void testThread(int n, ServiceLocator* aDifferentThreadsLocator) {
     MessageService* mes3 = aDifferentThreadsLocator->locateMessageService();
     mes3->publish("aMessage", StringMap());
     
+    EventQueue* eq = loc->locateEventService();
+    eq->pushTimerEvent(15);
+    
     assert(loc == loc2);
     assert(loc != aDifferentThreadsLocator);
     assert(loc != NULL);

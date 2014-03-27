@@ -85,6 +85,10 @@ int main(int argc, char** argv) {
     fflush(stdout);
     printTestResult(MessageService::test());
     
+    printf("Testing EventQueue...\t\t");
+    fflush(stdout);
+    printTestResult(EventQueue::test());
+    
     printf("Testing Timer");
     fflush(stdout);
     bool timerResult = Timer::test();

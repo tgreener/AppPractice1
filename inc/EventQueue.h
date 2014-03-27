@@ -24,6 +24,7 @@ private:
     TimerEventQueue timerEvents;
     Semaphore eventSem;
     Semaphore comsSem;
+    Semaphore handlerSem;
     
     bool runningEventLoop;
     
@@ -38,6 +39,8 @@ public:
     void addTimerEventHandler(TimerEventHandler teh);
     
     void stopEventLoop();
+    
+    static bool test();
 };
 
 #endif	/* EVENTQUEUE_H */
