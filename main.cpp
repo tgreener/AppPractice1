@@ -25,6 +25,7 @@ void printTestResult(bool result) {
 bool integrationTest() {
     Application app;
     bool result = false;
+    bool eventQueueWorked = false;
     
     std::thread testThread;
     MessageService* mainThreadMessages = ServiceLocator::getDefaultLocator()->locateMessageService();
@@ -33,8 +34,18 @@ bool integrationTest() {
     auto threadFunction = [&] {
         Semaphore testSem;            
         ServiceLocator* loc = ServiceLocator::getDefaultLocator();
-
         MessageService* ms = loc->locateMessageService();
+        
+        EventQueue* eq = loc->locateEventService();
+        
+        eq->addTimerEventHandler([&](TimerEvent e){
+            eventQueueWorked = e.getElapsedTime() == 1000;
+            eq->stopEventLoop();
+        });
+        
+        loc->locateTimerService()->setInterval(1000, [=]{
+            eq->pushTimerEvent(1000);
+        }, false);
         
         mainThreadMessages->subscribe("timerEvent", [&](StringMap p) {
             ms->publish("superEvent", StringMap());
@@ -44,6 +55,8 @@ bool integrationTest() {
             testSem.signal();
             result = true;
         });
+        
+        eq->serviceEventLoop();
         
         syncSem.signal();
         testSem.wait();
@@ -62,7 +75,7 @@ bool integrationTest() {
     });
     testThread.join();
     
-    return result;
+    return result && eventQueueWorked;
 }
 
 /*

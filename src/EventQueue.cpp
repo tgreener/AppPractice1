@@ -51,6 +51,7 @@ void EventQueue::runTimerEventHandlers(TimerEvent& te) {
 void EventQueue::stopEventLoop() {
     comsSem.wait();
     runningEventLoop = false;
+    eventSem.signal();
     comsSem.signal();
 }
 
