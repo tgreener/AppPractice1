@@ -1,0 +1,68 @@
+
+#include "Game.h"
+#include "ServiceLocator.h"
+
+Game::Game() : usingAI(false), usingRender(false), renderUpdateDelta(0), AIUpdateDelta(0) {
+    comsSem.signal();
+}
+
+void Game::run() {
+    comsSem.wait();
+    
+    gameApp.run([this]{
+        // Maybe some day I'll need to pass messages from the main thread to the
+        // others, but for now it's not necessary.
+        // ServiceLocator* sloc = ServiceLocator::getDefaultLocator();
+        
+        if(usingAI) {
+            thread AIThread([=]{
+                Timer* time = ServiceLocator::getDefaultLocator()->locateTimerService();
+                EventQueue* eq = ServiceLocator::getDefaultLocator()->locateEventService();
+                
+                time->setInterval(AIUpdateDelta, [=]{
+                    unsigned long delta = 0;
+                    
+                    // Figure out how much time has passed
+                    
+                    eq->pushTimerEvent(delta);
+                }, true);
+                
+                eq->addTimerEventHandler([](TimerEvent te) {
+                    // Call game delegate updateAI() method.
+                });
+                
+                eq->serviceEventLoop();
+            });
+        }
+        
+        
+    });
+    
+    comsSem.signal();
+}
+
+void Game::stop() {
+    comsSem.wait();
+    
+    gameApp.stop();
+    
+    comsSem.signal();
+}
+
+void Game::useRenderThread(int dt) {
+    comsSem.wait();
+    
+    usingAI = true;
+    AIUpdateDelta = dt;
+    
+    comsSem.signal();
+}
+
+void Game::useAIThread(int dt) {
+    comsSem.wait();
+    
+    usingRender = true;
+    renderUpdateDelta = dt;
+    
+    comsSem.signal();
+}

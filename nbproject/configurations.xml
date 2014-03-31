@@ -7,6 +7,7 @@
       <itemPath>inc/Application.h</itemPath>
       <itemPath>inc/Event.h</itemPath>
       <itemPath>inc/EventQueue.h</itemPath>
+      <itemPath>inc/Game.h</itemPath>
       <itemPath>inc/MemoryPool.h</itemPath>
       <itemPath>inc/MessageListener.h</itemPath>
       <itemPath>inc/MessageService.h</itemPath>
@@ -26,6 +27,7 @@
       <itemPath>src/Application.cpp</itemPath>
       <itemPath>src/Event.cpp</itemPath>
       <itemPath>src/EventQueue.cpp</itemPath>
+      <itemPath>src/Game.cpp</itemPath>
       <itemPath>src/MemoryPool.cpp</itemPath>
       <itemPath>src/MessageService.cpp</itemPath>
       <itemPath>src/Semaphore.cpp</itemPath>
@@ -72,6 +74,8 @@
       </item>
       <item path="inc/EventQueue.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/Game.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/MemoryPool.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/MessageListener.h" ex="false" tool="3" flavor2="0">
@@ -95,6 +99,8 @@
       <item path="src/Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/EventQueue.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Game.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/MemoryPool.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -137,6 +143,8 @@
       </item>
       <item path="inc/EventQueue.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/Game.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/MemoryPool.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/MessageListener.h" ex="false" tool="3" flavor2="0">
@@ -160,6 +168,8 @@
       <item path="src/Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/EventQueue.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Game.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/MemoryPool.cpp" ex="false" tool="1" flavor2="0">
       </item>

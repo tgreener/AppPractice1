@@ -39,6 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Application.o \
 	${OBJECTDIR}/src/Event.o \
 	${OBJECTDIR}/src/EventQueue.o \
+	${OBJECTDIR}/src/Game.o \
 	${OBJECTDIR}/src/MemoryPool.o \
 	${OBJECTDIR}/src/MessageService.o \
 	${OBJECTDIR}/src/Semaphore.o \
@@ -91,6 +92,11 @@ ${OBJECTDIR}/src/EventQueue.o: src/EventQueue.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/EventQueue.o src/EventQueue.cpp
+
+${OBJECTDIR}/src/Game.o: src/Game.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Game.o src/Game.cpp
 
 ${OBJECTDIR}/src/MemoryPool.o: src/MemoryPool.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
