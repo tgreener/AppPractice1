@@ -18,6 +18,7 @@ protected:
     
     int renderUpdateDelta;
     int AIUpdateDelta;
+    int gameUpdateDelta;
     
     Application gameApp;
     
@@ -28,6 +29,7 @@ public:
     
     void useRenderThread(int updateDelta);
     void useAIThread(int updateDelta);
+    void setGameUpdatePeriod(int updateDelta);
     
     void run();
     void stop();
