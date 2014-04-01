@@ -3,7 +3,7 @@
 #include "ServiceLocator.h"
 
 Game::Game() : usingAI(false), usingRender(false), usingPhys(false), isThreaded(false),
-               renderUpdateDelta(0), AIUpdateDelta(0), physicsUpdateDelta(0) {}
+               renderUpdateDelta(0), AIUpdateDelta(0), physicsUpdateDelta(0), delegate(NULL) {}
 
 void Game::setTimerCallback(int updateDelta, EventQueue* eq) {
     Timer* time = ServiceLocator::getDefaultLocator()->locateTimerService();
@@ -17,16 +17,19 @@ void Game::setTimerCallback(int updateDelta, EventQueue* eq) {
     }, true);
 }
 
+void Game::setDelegate(GameDelegate* d) {
+    delegate = d;
+}
+
 void Game::run() {
-    
     gameApp.run([this]{
         if(usingAI) {
             thread AIThread([=]{
                 EventQueue* eq = ServiceLocator::getDefaultLocator()->locateEventService();
                 setTimerCallback(AIUpdateDelta, eq);
                 
-                eq->addTimerEventHandler([](TimerEvent te) {
-                    // Call game delegate updateAI() method.
+                eq->addTimerEventHandler([=](TimerEvent te) {
+                    delegate->updateAI(te.getElapsedTime());
                 });
                 
                 eq->serviceEventLoop();
@@ -38,8 +41,8 @@ void Game::run() {
                 EventQueue* eq = ServiceLocator::getDefaultLocator()->locateEventService();
                 setTimerCallback(renderUpdateDelta, eq);
                 
-                eq->addTimerEventHandler([](TimerEvent te) {
-                    // Call game delegate render() method.
+                eq->addTimerEventHandler([=](TimerEvent te) {
+                    delegate->render(te.getElapsedTime());
                 });
                 
                 eq->serviceEventLoop();
@@ -52,7 +55,7 @@ void Game::run() {
                 setTimerCallback(physicsUpdateDelta, eq);
                 
                 eq->addTimerEventHandler([](TimerEvent te) {
-                    // Call game delegate updatePhysics() method.
+                    delegate->updatePhysics(te.getElapsedTime());
                 });
                 
                 eq->serviceEventLoop();
@@ -65,11 +68,11 @@ void Game::run() {
 
             eq->addTimerEventHandler([this](TimerEvent te) {
                 
-                // Call game delegate update() method.
+                delegate->update(te.getElapsedTime());
                 
                 if(!isThreaded) {
-                    for(ProcedureVector::size_type i = 0; i < updateQueue.size(); i++) {
-                        updateQueue[i]();
+                    for(UpdateFunctionVector::size_type i = 0; i < updateQueue.size(); i++) {
+                        updateQueue[i](te.getElapsedTime());
                     }
                 }
             });
@@ -113,26 +116,26 @@ void Game::usePhysicsThread(int updateDelta) {
     }
 }
 
-void Game::queueAIUpdate() {
+void Game::queueUpdateFunction(UpdateFunction f) {
     if(!isThreaded) {
-        updateQueue.push_back([this]{
-            // Call game delegate updateAI() method.
-        });
+        updateQueue.push_back(f);
     }
+}
+
+void Game::queueAIUpdate() {
+    queueUpdateFunction([=](unsigned long dt){
+        delegate->updateAI(dt);
+    });
 }
 
 void Game::queueRenderUpdate() {
-    if(!isThreaded) {
-        updateQueue.push_back([this]{
-            // Call game delegate render() method.
-        });
-    }
+    queueUpdateFunction([=](unsigned long dt){
+        delegate->render(dt);
+    });
 }
 
 void Game::queuePhysicsUpdate() {
-    if(!isThreaded) {
-        updateQueue.push_back([this]{
-            // Call game delegate updatePhysics() method.
-        });
-    }
+    queueUpdateFunction([=](unsigned long dt){
+        delegate->updatePhysics(dt);
+    });
 }

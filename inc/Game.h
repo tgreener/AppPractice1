@@ -11,12 +11,16 @@
 #include "Semaphore.h"
 #include "Application.h"
 #include "EventQueue.h"
+#include "GameDelegate.h"
 #include <vector>
 
-typedef vector<function<void (void)> > ProcedureVector;
+typedef function<void (unsigned long dt)> UpdateFunction;
+typedef vector<UpdateFunction> UpdateFunctionVector;
 
 class Game {
 protected:
+    GameDelegate* delegate;
+    
     bool usingRender;
     bool usingAI;
     bool usingPhys;
@@ -29,13 +33,16 @@ protected:
     
     Application gameApp;
     
-    ProcedureVector updateQueue;
+    UpdateFunctionVector updateQueue;
     
     void setTimerCallback(int updateDelta, EventQueue* eq);
+    void queueUpdateFunction(UpdateFunction f);
     
 public:
     Game();
 
+    void setDelegate(GameDelegate* d);
+    
     void setThreaded();
     void useRenderThread(int updateDelta);
     void useAIThread(int updateDelta);

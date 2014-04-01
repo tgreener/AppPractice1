@@ -14,3 +14,5 @@ Necessary Things:
 Extra Things:
 
 1) Support for multithreaded applications. I have been trying to build all services with multithreaded behavior in mind. This has been the most unfamiliar ground for me to cover.
+
+2) A game facade class. This class wraps an application and lets you configure the a game run loop.

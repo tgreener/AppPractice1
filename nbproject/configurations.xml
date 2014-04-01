@@ -8,6 +8,7 @@
       <itemPath>inc/Event.h</itemPath>
       <itemPath>inc/EventQueue.h</itemPath>
       <itemPath>inc/Game.h</itemPath>
+      <itemPath>inc/GameDelegate.h</itemPath>
       <itemPath>inc/MemoryPool.h</itemPath>
       <itemPath>inc/MessageListener.h</itemPath>
       <itemPath>inc/MessageService.h</itemPath>
@@ -75,6 +76,8 @@
       <item path="inc/EventQueue.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/Game.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/GameDelegate.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/MemoryPool.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -144,6 +147,8 @@
       <item path="inc/EventQueue.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/Game.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/GameDelegate.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/MemoryPool.h" ex="false" tool="3" flavor2="0">
       </item>
