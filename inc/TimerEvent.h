@@ -12,10 +12,11 @@
 
 class TimerEvent : public Event {
 private:
-    unsigned long elapsedTime;
+    long timeStamp;
 public:
-    TimerEvent(std::string description, unsigned long elapsedTime);
-    unsigned long getElapsedTime();
+    TimerEvent(std::string description, unsigned long timeStamp);
+    long getElapsedTimeMilli();
+    long getElapsedTimeNano();
 };
 
 #endif	/* TIMEREVENT_H */

@@ -1,15 +1,17 @@
 
 #include "EventQueue.h"
-#include "TimerEvent.h"
+#include "ServiceLocator.h"
 
 EventQueue::EventQueue() : runningEventLoop(false){
     comsSem.signal();
     handlerSem.signal();
 }
 
-void EventQueue::pushTimerEvent(unsigned long timeElapsed) {
+void EventQueue::pushTimerEvent(unsigned long timeStamp) {
     comsSem.wait();
-    timerEvents.push(TimerEvent("TimerEvent", timeElapsed));
+
+    timerEvents.push(TimerEvent("TimerEvent", timeStamp));
+    
     eventSem.signal();
     comsSem.signal();
 }
@@ -60,11 +62,11 @@ bool EventQueue::test() {
     bool result = false;
     
     eq.addTimerEventHandler([&](TimerEvent te) {
-        result = te.getElapsedTime() == 10;
+        result = te.getElapsedTimeNano() != 0;
         eq.stopEventLoop();
     });
     
-    eq.pushTimerEvent(10);
+    eq.pushTimerEvent(ServiceLocator::getDefaultLocator()->locateTimerService()->getTimeStamp());
     eq.serviceEventLoop();
     
     return result;

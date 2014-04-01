@@ -39,12 +39,12 @@ bool integrationTest() {
         EventQueue* eq = loc->locateEventService();
         
         eq->addTimerEventHandler([&](TimerEvent e){
-            eventQueueWorked = e.getElapsedTime() == 1000;
+            eventQueueWorked = abs(e.getElapsedTimeMilli() - 1000) <= 1;
             eq->stopEventLoop();
         });
         
-        loc->locateTimerService()->setInterval(1000, [=]{
-            eq->pushTimerEvent(1000);
+        loc->locateTimerService()->setInterval(1000, [=](unsigned long ts){
+            eq->pushTimerEvent(ts);
         }, false);
         
         mainThreadMessages->subscribe("timerEvent", [&](StringMap p) {
@@ -69,7 +69,7 @@ bool integrationTest() {
         syncSem.wait();
         
         Timer* timer = ServiceLocator::getDefaultLocator()->locateTimerService();
-        timer->setInterval(500, [&]{ 
+        timer->setInterval(500, [&](unsigned long ts){ 
             mainThreadMessages->publish("timerEvent", StringMap());
         }, false);
     });

@@ -13,6 +13,7 @@
 #define MILLI_TO_MICRO(mls) mls * 1000L
 #define MILLI_TO_NANO(mls) mls * 1000000L
 #define SEC_TO_NANO(s) s * 1000000000L
+#define NANO_TO_MILLI(n) n / 1000000L
 
 #include <stdlib.h>
 #include <time.h>
@@ -29,11 +30,12 @@ private:
     
     Timer();
 public:
-    TimerInterval setInterval(unsigned int milliseconds, function<void (void)> callback, bool repeats);
+    TimerInterval setInterval(unsigned int milliseconds, function<void (unsigned long dt)> callback, bool repeats);
+    unsigned long getTimeStamp();
     
     static Timer* getTimer();
     static bool test();
 };
 
-#endif	/* TIMERSERVICE_H */
+#endif	/* TIMER_H */
 

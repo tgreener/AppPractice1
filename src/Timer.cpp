@@ -2,10 +2,11 @@
 #include "Timer.h"
 #include <thread>
 #include <cassert>
+#include <mach/mach_time.h>
 
 Timer Timer::theTimer;
 
-TimerInterval Timer::setInterval(unsigned int milliseconds, function<void (void)> callback, bool repeats) {
+TimerInterval Timer::setInterval(unsigned int milliseconds, function<void (unsigned long ts)> callback, bool repeats) {
     dispatch_source_t timer = 
             dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 
             0, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
@@ -22,11 +23,15 @@ TimerInterval Timer::setInterval(unsigned int milliseconds, function<void (void)
             interval = DISPATCH_TIME_FOREVER;
         }
         
+        __block unsigned long ts = this->getTimeStamp();
         dispatch_source_set_timer(timer, 
                                   dispatch_time(DISPATCH_TIME_NOW, startTime), 
-                                  interval, 0);
+                                  interval, 1000);
 
-        dispatch_source_set_event_handler(timer, ^{callback();});
+        dispatch_source_set_event_handler(timer, ^{
+            callback(ts);
+            ts = this->getTimeStamp();
+        });
         dispatch_resume(timer);
     }
     else {
@@ -34,6 +39,18 @@ TimerInterval Timer::setInterval(unsigned int milliseconds, function<void (void)
     }
     
     return timer;
+}
+
+unsigned long Timer::getTimeStamp() {
+    mach_timebase_info_data_t info;
+    mach_timebase_info(&info);
+    
+    unsigned long ts = mach_absolute_time();
+    
+    ts *= info.numer;
+    ts /= info.denom;
+    
+    return ts;
 }
 
 Timer* Timer::getTimer() {
@@ -64,27 +81,27 @@ bool Timer::test() {
     int t3c = 0;
     int t4c = 0;
     
-    auto timeStopperFunc = [&] {
+    auto timeStopperFunc = [&] (unsigned long ts) {
         timerSem->signal();
     };
     
-    auto timeFunc1 = [&] {
+    auto timeFunc1 = [&] (unsigned long ts) {
         t1c++;
     };
     
-    auto timeFunc2 = [&] {
+    auto timeFunc2 = [&] (unsigned long ts) {
         t2c++;
     };
     
-    auto timeFunc3 = [&] {
+    auto timeFunc3 = [&] (unsigned long ts) {
         t3c++;
     };
     
-    auto timeFunc4 = [&] {
+    auto timeFunc4 = [&] (unsigned long ts) {
         t4c++;
     };
     
-    auto progress = [] {
+    auto progress = [] (unsigned long ts) {
         printf(".");
         fflush(stdout);
     };

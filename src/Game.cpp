@@ -8,12 +8,8 @@ Game::Game() : usingAI(false), usingRender(false), usingPhys(false), isThreaded(
 void Game::setTimerCallback(int updateDelta, EventQueue* eq) {
     Timer* time = ServiceLocator::getDefaultLocator()->locateTimerService();
     
-    time->setInterval(updateDelta, [=]{
-        unsigned long delta = 0;
-
-        // Figure out how much time has passed
-
-        eq->pushTimerEvent(delta);
+    time->setInterval(updateDelta, [=](unsigned long ts){
+        eq->pushTimerEvent(ts);
     }, true);
 }
 
@@ -29,7 +25,7 @@ void Game::run() {
                 setTimerCallback(AIUpdateDelta, eq);
                 
                 eq->addTimerEventHandler([=](TimerEvent te) {
-                    delegate->updateAI(te.getElapsedTime());
+                    delegate->updateAI(te.getElapsedTimeMilli());
                 });
                 
                 eq->serviceEventLoop();
@@ -42,7 +38,7 @@ void Game::run() {
                 setTimerCallback(renderUpdateDelta, eq);
                 
                 eq->addTimerEventHandler([=](TimerEvent te) {
-                    delegate->render(te.getElapsedTime());
+                    delegate->render(te.getElapsedTimeMilli());
                 });
                 
                 eq->serviceEventLoop();
@@ -54,8 +50,8 @@ void Game::run() {
                 EventQueue* eq = ServiceLocator::getDefaultLocator()->locateEventService();
                 setTimerCallback(physicsUpdateDelta, eq);
                 
-                eq->addTimerEventHandler([](TimerEvent te) {
-                    delegate->updatePhysics(te.getElapsedTime());
+                eq->addTimerEventHandler([=](TimerEvent te) {
+                    delegate->updatePhysics(te.getElapsedTimeMilli());
                 });
                 
                 eq->serviceEventLoop();
@@ -68,11 +64,11 @@ void Game::run() {
 
             eq->addTimerEventHandler([this](TimerEvent te) {
                 
-                delegate->update(te.getElapsedTime());
+                delegate->update(te.getElapsedTimeMilli());
                 
                 if(!isThreaded) {
                     for(UpdateFunctionVector::size_type i = 0; i < updateQueue.size(); i++) {
-                        updateQueue[i](te.getElapsedTime());
+                        updateQueue[i](te.getElapsedTimeMilli());
                     }
                 }
             });

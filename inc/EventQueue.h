@@ -34,7 +34,7 @@ private:
 public:
     EventQueue();
     
-    void pushTimerEvent(unsigned long timeElapsed);
+    void pushTimerEvent(unsigned long timeStamp);
     void serviceEventLoop();
     void addTimerEventHandler(TimerEventHandler teh);
     
