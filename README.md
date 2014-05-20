@@ -17,4 +17,6 @@ Extra Things:
 
 2) A game facade class. This class wraps an application and lets you configure the a game run loop.
 
+Update:
+
 I've realized that I've done about as much as I can without using Cocoa. I think I've learned about as much as I can from this experience, and will probably not actively work on this much anymore.
